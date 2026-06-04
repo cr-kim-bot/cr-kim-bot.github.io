@@ -43,4 +43,5 @@ next-env.d.ts
 
 .codex-artifacts
 .velite
-docs
+./docs
+.idea
