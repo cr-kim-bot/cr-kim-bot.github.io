@@ -1,0 +1,43 @@
+---
+title: "Static Publication으로 시작하는 개발자 블로그"
+description: "GitHub Pages에 올릴 Developer Blog를 서버 없이 시작하는 이유와 첫 구조를 정리합니다."
+date: "2026-06-04"
+categories:
+  - nextjs
+  - craft
+tags:
+  - static-export
+  - mdx
+---
+
+## 왜 Static Publication인가
+
+Developer Blog의 첫 목적은 글을 쓰고 읽히게 만드는 것입니다. API, auth, CMS를 먼저 붙이면 Post보다 운영 모델이 먼저 커집니다.
+
+Static Publication은 MDX Post를 빌드 시점에 HTML로 만들고 GitHub Pages에서 정적 파일로 제공합니다.
+
+## Post Metadata
+
+첫 버전의 Post Metadata는 작게 시작합니다.
+
+- `title`: Post 제목
+- `description`: 목록과 검색 미리보기에 쓰는 설명
+- `date`: 발행일
+- `categories`: flat Category 목록
+
+### Optional fields
+
+나중에 필요할 수 있는 값은 optional로 열어둡니다. `updated`, `tags`, `draft`, `cover`, `canonicalUrl` 정도면 충분합니다.
+
+## Code Block
+
+Code Block은 개발자 글의 핵심 읽기 단위입니다.
+
+```ts filename="content/posts/example.mdx"
+export const post = {
+  title: "Source-authored MDX Post",
+  categories: ["nextjs", "craft"],
+};
+```
+
+복사 가능한 Code Block은 독자가 예제를 다시 실험하기 쉽게 만듭니다.
