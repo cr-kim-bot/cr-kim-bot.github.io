@@ -1,0 +1,15 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    :root { --bg: #18181b; --fg: #fafafa; }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg: #fafafa; --fg: #18181b; }
+    }
+    .glyph {
+      font-family: ui-monospace, "SF Mono", "Geist Mono", Menlo, Consolas, monospace;
+      font-weight: 700;
+    }
+  </style>
+  <rect width="32" height="32" rx="7" fill="var(--bg)" />
+  <text x="11.5" y="22.5" class="glyph" font-size="19" fill="var(--fg)" text-anchor="middle">D</text>
+  <rect x="19" y="20" width="8" height="3" rx="1.5" fill="var(--fg)" />
+</svg>
