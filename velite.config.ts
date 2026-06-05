@@ -1,3 +1,4 @@
+import rehypeMermaid from "rehype-mermaid";
 import rehypePrettyCode from "rehype-pretty-code";
 import rehypeSlug from "rehype-slug";
 import type { MdxOptions } from "velite";
@@ -7,6 +8,10 @@ import { normalizeCodeBlockMeta } from "@/entities/post/model/code-block-meta";
 const mdxOptions: MdxOptions = {
   rehypePlugins: [
     rehypeSlug,
+    // Mermaid runs before pretty-code so it consumes `language-mermaid`
+    // code blocks and inlines a build-time SVG (zero client JS). Without a
+    // configured errorFallback, invalid diagrams throw and fail the build.
+    [rehypeMermaid, { strategy: "inline-svg" }],
     [
       rehypePrettyCode,
       {

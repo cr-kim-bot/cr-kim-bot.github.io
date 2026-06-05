@@ -10,7 +10,7 @@ tags:
   - reference
 ---
 
-이 글은 **렌더링 검증용 데모**입니다. 블로그의 MDX 파이프라인(`remark-gfm` + `rehype-pretty-code` + `shiki`)이 어떤 문법을 어떻게 보여주는지 한눈에 확인할 수 있습니다.
+이 글은 **렌더링 검증용 데모**입니다. 블로그의 MDX 파이프라인(`remark-gfm` + `rehype-mermaid` + `rehype-pretty-code` + `shiki`)이 어떤 문법을 어떻게 보여주는지 한눈에 확인할 수 있습니다.
 
 ## 텍스트 스타일
 
@@ -98,6 +98,31 @@ bun run build
   "output": "export",
   "trailingSlash": true
 }
+```
+
+## 다이어그램 (Mermaid)
+
+` ```mermaid ` 코드블록은 빌드 시점에 SVG로 렌더되어 정적 HTML에 인라인됩니다(클라이언트 JS 0).
+
+### Flowchart
+
+```mermaid
+flowchart LR
+  A[MDX 작성] --> B{빌드}
+  B -->|velite| C[SVG 인라인]
+  C --> D[정적 export]
+```
+
+### Sequence
+
+```mermaid
+sequenceDiagram
+  participant 작성자
+  participant Velite
+  participant 브라우저
+  작성자->>Velite: ```mermaid 블록
+  Velite->>Velite: 빌드타임 SVG 렌더
+  Velite-->>브라우저: 인라인 SVG (JS 0)
 ```
 
 ## 구분선

@@ -459,6 +459,17 @@
     @apply my-6 rounded-lg border border-border;
   }
 
+  /* Mermaid diagrams: build-time inline SVG (rehype-mermaid). Rendered once
+     with the light theme, so in dark mode we wrap it in a light card to keep
+     the dark diagram text readable. */
+  .prose svg[id^="mermaid-"] {
+    @apply mx-auto my-6 block h-auto max-w-full;
+  }
+
+  .dark .prose svg[id^="mermaid-"] {
+    @apply rounded-lg bg-white p-4;
+  }
+
   /* Blockquote */
   .prose blockquote {
     @apply my-6 rounded-r-md border-border-strong border-l-4 bg-surface-card py-1 pl-4 text-dim italic;

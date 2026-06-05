@@ -33,6 +33,18 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
+      # Mermaid diagrams are rendered to SVG at build time via rehype-mermaid,
+      # which drives a headless Chromium through Playwright. The browser binary
+      # is cached across runs; only the ~150MB download is skipped on a cache hit.
+      - name: Cache Playwright browser
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('bun.lock') }}
+
+      - name: Install Playwright Chromium
+        run: bunx playwright install --with-deps chromium
+
       - name: Build static export
         run: bun run build
 
