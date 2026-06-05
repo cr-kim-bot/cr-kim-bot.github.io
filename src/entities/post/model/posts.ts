@@ -1,6 +1,14 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
+// Dev-only: create a Turbopack dependency edge on the generated Velite output
+// so that editing content triggers Fast Refresh (auto browser reload). Guarded
+// by NODE_ENV so the static export build never pulls the JSON into its bundle —
+// production stays on the readFileSync path below.
+if (process.env.NODE_ENV !== "production") {
+  void import("./velite-dev-watch");
+}
+
 export type PostMetadata = {
   title: string;
   description: string;
