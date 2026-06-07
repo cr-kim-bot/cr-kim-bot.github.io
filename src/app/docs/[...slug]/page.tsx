@@ -5,6 +5,7 @@ import { DocumentSectionPageCard } from "@/components/page/DocumentSectionPageCa
 import { PostRoutePageCard } from "@/components/page/PostRoutePageCard";
 import { withCategoryDetails } from "@/entities/category/model/categories";
 import {
+  getAdjacentPosts,
   getAllDocumentSections,
   getAllPosts,
   getDocumentSectionByRouteSegments,
@@ -74,10 +75,7 @@ export default async function DocsPostPage({ params }: DocsPostPageProps) {
     notFound();
   }
 
-  const posts = getAllPosts();
-  const index = posts.findIndex((candidate) => candidate.slug === post.slug);
-  const previousPost = posts[index + 1];
-  const nextPost = posts[index - 1];
+  const { previousPost, nextPost } = getAdjacentPosts(post.slug);
   const categorizedPost = withCategoryDetails(post);
 
   return (

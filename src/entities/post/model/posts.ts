@@ -225,6 +225,23 @@ export function getPost(slug: string, { includeDrafts = false } = {}) {
   return post && (includeDrafts || !post.draft) ? post : undefined;
 }
 
+// Previous/next follow the reading order shown in the sidebar (numeric path
+// prefixes), not publish date — chapters in a series share a date, so a
+// date-based order would scramble the sequence.
+export function getAdjacentPosts(slug: string) {
+  const posts = sortByOrderPath(getAllPosts());
+  const index = posts.findIndex((candidate) => candidate.slug === slug);
+
+  if (index === -1) {
+    return { previousPost: undefined, nextPost: undefined };
+  }
+
+  return {
+    previousPost: posts[index - 1],
+    nextPost: posts[index + 1],
+  };
+}
+
 export function getAllDocumentSections() {
   return sortByOrderPath(
     getVeliteDocumentSections().map(toDocumentSectionSummary),
