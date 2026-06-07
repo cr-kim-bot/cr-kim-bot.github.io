@@ -51,6 +51,7 @@ const documentSections = defineCollection({
     path: s.path(),
     title: s.string(),
     description: s.string(),
+    devOnly: s.boolean().optional(),
     content: s.raw(),
     code: s.mdx(mdxOptions),
   }),

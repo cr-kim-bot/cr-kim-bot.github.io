@@ -282,7 +282,7 @@ export function PostsDirectorySidebar({
   }
 
   return (
-    <aside className="sticky top-20 z-20 h-fit w-full self-start lg:top-24 lg:max-h-[calc(100svh-7rem)] lg:overflow-y-auto">
+    <aside className="thin-scrollbar sticky top-20 z-20 max-h-72 lg:h-fit w-full self-start lg:top-24 lg:max-h-[calc(100svh-7rem)] overflow-y-auto">
       <nav
         aria-label="Posts directory"
         className="w-full rounded-lg border border-border-subtle bg-surface-overlay-strong p-3 backdrop-blur-xl lg:bg-surface-card lg:backdrop-blur-none"

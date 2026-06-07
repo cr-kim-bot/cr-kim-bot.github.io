@@ -25,6 +25,7 @@ export type PostSummary = PostMetadata & {
   slug: string;
   routePath: string;
   routeSegments: string[];
+  orderPath: string;
 };
 
 export type Post = PostSummary & {
@@ -37,6 +38,7 @@ export type DocumentSectionSummary = {
   description: string;
   routePath: string;
   routeSegments: string[];
+  orderPath: string;
 };
 
 export type DocumentSection = DocumentSectionSummary & {
@@ -64,6 +66,7 @@ type VeliteDocumentSection = {
   path: string;
   title: string;
   description: string;
+  devOnly?: boolean;
   code: string;
   content: string;
 };
@@ -115,6 +118,7 @@ function toPostSummary(post: VelitePost): PostSummary {
     slug: routeSegments.at(-1) ?? "",
     routePath: toRoutePath(routeSegments),
     routeSegments,
+    orderPath: post.path,
     title: post.title,
     description: post.description,
     date: post.date,
@@ -145,6 +149,7 @@ function toDocumentSectionSummary(
     description: section.description,
     routePath: toRoutePath(routeSegments),
     routeSegments,
+    orderPath: section.path,
   };
 }
 
@@ -156,18 +161,49 @@ function parentRouteSegments(routeSegments: string[]) {
   return routeSegments.slice(0, -1);
 }
 
-function sortByRoutePath<T extends { routePath: string }>(items: T[]) {
+// Sort by the source path so numeric folder/file prefixes (01-, 02-, ...)
+// drive ordering, even though those prefixes are stripped from the route.
+function sortByOrderPath<T extends { orderPath: string }>(items: T[]) {
   return items.toSorted((left, right) =>
-    left.routePath.localeCompare(right.routePath),
+    left.orderPath.localeCompare(right.orderPath, undefined, {
+      numeric: true,
+    }),
+  );
+}
+
+// A section's index.mdx can set `devOnly: true` to keep that folder (and every
+// post/subsection under it) out of the production static export — e.g. the MDX
+// syntax sandbox. The flag lives in metadata, not in a hardcoded path list.
+function getDevOnlyPathPrefixes() {
+  return loadVeliteCollection<VeliteDocumentSection>("documentSections.json")
+    .filter((section) => section.devOnly === true)
+    .map((section) => section.path);
+}
+
+function isHiddenPath(path: string, devOnlyPrefixes: string[]) {
+  if (process.env.NODE_ENV !== "production") {
+    return false;
+  }
+
+  return devOnlyPrefixes.some(
+    (prefix) => path === prefix || path.startsWith(`${prefix}/`),
   );
 }
 
 function getVelitePosts() {
-  return loadVeliteCollection<VelitePost>("posts.json");
+  const devOnlyPrefixes = getDevOnlyPathPrefixes();
+
+  return loadVeliteCollection<VelitePost>("posts.json").filter(
+    (post) => !isHiddenPath(post.path, devOnlyPrefixes),
+  );
 }
 
 function getVeliteDocumentSections() {
-  return loadVeliteCollection<VeliteDocumentSection>("documentSections.json");
+  const devOnlyPrefixes = getDevOnlyPathPrefixes();
+
+  return loadVeliteCollection<VeliteDocumentSection>(
+    "documentSections.json",
+  ).filter((section) => !isHiddenPath(section.path, devOnlyPrefixes));
 }
 
 export function getPostSlugs() {
@@ -190,7 +226,7 @@ export function getPost(slug: string, { includeDrafts = false } = {}) {
 }
 
 export function getAllDocumentSections() {
-  return sortByRoutePath(
+  return sortByOrderPath(
     getVeliteDocumentSections().map(toDocumentSectionSummary),
   );
 }
@@ -203,7 +239,7 @@ export function getPostNavigationTree() {
         routeSegments,
       ),
     );
-    const childPosts = sortByRoutePath(getAllPosts()).filter((post) =>
+    const childPosts = sortByOrderPath(getAllPosts()).filter((post) =>
       sameRouteSegments(parentRouteSegments(post.routeSegments), routeSegments),
     );
 
@@ -248,7 +284,7 @@ export function getDocumentSectionByRouteSegments(routeSegments: string[]) {
       routeSegments,
     ),
   );
-  const posts = sortByRoutePath(getAllPosts()).filter((post) =>
+  const posts = sortByOrderPath(getAllPosts()).filter((post) =>
     sameRouteSegments(parentRouteSegments(post.routeSegments), routeSegments),
   );
 
