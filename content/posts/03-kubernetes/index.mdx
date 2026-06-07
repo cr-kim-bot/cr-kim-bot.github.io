@@ -1,0 +1,37 @@
+---
+title: "Kubernetes"
+description: "컨테이너 오케스트레이션의 원리를 '왜 → 무엇 → 어떻게'의 흐름으로 풀어가는 이론 강의 시리즈입니다."
+---
+
+Kubernetes 섹션은 단순한 명령어 모음이 아니라 **이론 강의**로 정리합니다.
+"왜 이게 필요한가 → 무엇인가 → 내부에서 어떻게 도는가" 순서로,
+각 개념이 등장한 배경과 설계 의도를 함께 따라갑니다.
+
+아래는 전체 커리큘럼 로드맵입니다. 각 Chapter는 별도의 글로 하나씩 채워 나갑니다.
+
+## 기초 — 무엇을, 왜
+
+- **Ch 1. 컨테이너에서 오케스트레이션까지** — VM → 컨테이너 → 오케스트레이션의 흐름과 Kubernetes가 푸는 문제
+- **Ch 2. 쿠버네티스 아키텍처 한눈에 보기** — Control Plane(API Server, etcd, Scheduler, Controller Manager)과 Worker Node(kubelet, kube-proxy, 컨테이너 런타임)
+- **Ch 3. Pod — 가장 작은 배포 단위** — Pod의 정체, 컨테이너와의 차이, 라이프사이클, 사이드카 패턴
+
+## 핵심 — 어떻게 도는가
+
+- **Ch 4. 선언적 관리와 컨트롤러** — 명령형 vs 선언적, Desired State, ReplicaSet / Deployment, 롤링 업데이트
+- **Ch 5. 네트워킹과 서비스 디스커버리** — ClusterIP / NodePort / LoadBalancer, Service, 클러스터 DNS, Ingress
+- **Ch 6. 설정과 비밀 관리** — ConfigMap, Secret, 환경변수 주입, 12-factor 설정 분리
+- **Ch 7. 스토리지와 상태 관리** — Volume, PV/PVC, StorageClass, StatefulSet
+- **Ch 8. 스케줄링과 리소스 관리** — requests/limits, label/affinity, taint·toleration, QoS
+
+## 운영 — 살아있게 만들기
+
+- **Ch 9. 오토스케일링과 무중단 배포** — HPA/VPA, 헬스체크(liveness·readiness·startup probe), 롤아웃 전략
+
+## 심화 — 확장과 자동화
+
+- **Ch 10. 보안과 멀티테넌시** — RBAC, Namespace, NetworkPolicy, ServiceAccount
+- **Ch 11. 패키징과 배포 자동화** — Helm, Kustomize로 매니페스트를 템플릿화·환경 분리
+- **Ch 12. GitOps** — ArgoCD / Flux, Git을 단일 소스 오브 트루스로 삼는 배포 모델
+- **Ch 13. CRD와 Operator 패턴** — Custom Resource로 API를 확장하고 컨트롤러로 운영을 자동화
+- **Ch 14. 모니터링과 옵저버빌리티** — Prometheus·Grafana, 메트릭·로그·트레이스의 3축, 알림 설계
+- **Ch 15. Admission Webhook** — Validating / Mutating webhook으로 API 요청을 가로채 검증·변형하는 확장 포인트

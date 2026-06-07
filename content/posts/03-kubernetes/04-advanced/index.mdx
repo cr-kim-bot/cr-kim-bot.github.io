@@ -1,0 +1,17 @@
+---
+title: "심화 — 확장과 자동화"
+description: "보안, 패키징, GitOps, Operator, 모니터링, Admission Webhook. Kubernetes를 안전하게 운영하고, API 자체를 확장하며, 운영을 자동화하는 심화 주제를 다룹니다."
+---
+
+여기서부터는 Kubernetes를 "쓰는" 단계를 넘어 **확장하고 자동화하는** 단계입니다.
+권한과 격리로 안전하게 만들고, 매니페스트를 템플릿화하며, Git을 단일 소스로 삼아 배포하고,
+Custom Resource로 API를 직접 늘리고, 관측 가능하게 만들고, 요청을 가로채 검증·변형합니다.
+
+## 이 단계의 챕터
+
+- **Ch 10. 보안과 멀티테넌시** — RBAC, Namespace, NetworkPolicy, ServiceAccount
+- **Ch 11. 패키징과 배포 자동화** — Helm, Kustomize로 매니페스트를 템플릿화·환경 분리
+- **Ch 12. GitOps** — ArgoCD / Flux, Git을 단일 소스 오브 트루스로 삼는 배포 모델
+- **Ch 13. CRD와 Operator 패턴** — Custom Resource로 API를 확장하고 컨트롤러로 운영을 자동화
+- **Ch 14. 모니터링과 옵저버빌리티** — Prometheus·Grafana, 메트릭·로그·트레이스의 3축, 알림 설계
+- **Ch 15. Admission Webhook** — Validating / Mutating webhook으로 API 요청을 가로채 검증·변형
